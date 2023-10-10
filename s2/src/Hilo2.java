@@ -1,6 +1,10 @@
 import java.util.concurrent.TimeUnit;
 
-public class Hilo2 extends Thread {
+// R1
+//public class Hilo2 extends Thread {
+
+// R2
+public class Hilo2 implements Runnable {
     @Override
     public void run() {
         while(true){
