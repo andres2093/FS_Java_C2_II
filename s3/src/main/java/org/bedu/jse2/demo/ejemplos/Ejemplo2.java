@@ -13,4 +13,12 @@ public class Ejemplo2 {
         }
         return lista;
     }
+    Integer transformarYSumar(Iterable<Integer> conjunto, Function<Integer, Integer> funcion){
+        Integer acumulador = 0;
+
+        for(Integer value: conjunto){
+            acumulador += funcion.apply(value);
+        }
+        return acumulador;
+    }
 }

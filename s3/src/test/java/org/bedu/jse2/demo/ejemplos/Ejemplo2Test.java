@@ -27,4 +27,12 @@ class Ejemplo2Test {
         List<Integer> real = ejemplo2.transformar(CONJUNTO, s -> s * s);
         assertThat(real).containsExactly(1, 16, 36, 4, 25, 81);
     }
+
+    @Test
+    @DisplayName("Transforma y suma")
+    void reto(){
+        Ejemplo2 ejemplo2 = new Ejemplo2();
+        Integer real = ejemplo2.transformarYSumar(CONJUNTO, s -> 1);
+        assertThat(real).isEqualTo(CONJUNTO.size());
+    }
 }
