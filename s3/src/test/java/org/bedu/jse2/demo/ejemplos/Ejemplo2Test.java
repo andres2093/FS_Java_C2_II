@@ -32,7 +32,7 @@ class Ejemplo2Test {
     @DisplayName("Transforma y suma")
     void reto(){
         Ejemplo2 ejemplo2 = new Ejemplo2();
-        Integer real = ejemplo2.transformarYSumar(CONJUNTO, s -> 1);
-        assertThat(real).isEqualTo(CONJUNTO.size());
+        Integer real = ejemplo2.transformarYSumar(CONJUNTO, s -> s);
+        assertThat(real).isEqualTo(17);
     }
 }
