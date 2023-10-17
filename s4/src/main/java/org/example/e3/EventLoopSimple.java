@@ -5,7 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 public class EventLoopSimple implements Runnable {
-
+    private static double acumulador;
     private boolean enEjecucion = false;
     private Queue<Object> listaTareas = new LinkedList<>();
     private final EventHandler worker;
@@ -23,6 +23,9 @@ public class EventLoopSimple implements Runnable {
                 if(evento == null){
                     System.out.println("No hay eventos pendientes, esperando 1s...");
                     TimeUnit.SECONDS.sleep(1);
+                } else if(evento instanceof Number) {
+                    acumulador += ((Number) evento).doubleValue();
+                    System.out.println("Acumulado: " + acumulador);
                 }
                 worker.procesarEvento(evento);
                 TimeUnit.MILLISECONDS.sleep(100);
@@ -34,6 +37,7 @@ public class EventLoopSimple implements Runnable {
     }
 
     public void iniciar(){
+        acumulador = 0;
         this.enEjecucion = true;
         new Thread(this).start();
     }

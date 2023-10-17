@@ -9,6 +9,8 @@ public class E3 {
                 System.out.println("String recibido: " + evento);
             } else if (evento instanceof Number) {
                 System.out.println("Número recibido: " + evento);
+            } else {
+                System.out.println("Recibido un objeto no identificado");
             }
         });
 
