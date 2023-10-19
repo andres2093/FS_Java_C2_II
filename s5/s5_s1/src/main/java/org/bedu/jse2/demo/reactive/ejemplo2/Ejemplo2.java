@@ -17,4 +17,25 @@ public class Ejemplo2 {
                 .reduce(0, Integer::sum)
                 .block();
     }
+
+//    FLATMAP?
+//      - Procesar el stream/flux en paralelo
+//      - Cada valor puede generar varios valores más
+//           (expansion de la lista)
+    static Mono<Integer> reto(){
+        return ReactorFluxGenerator
+                .fluxStream()
+                .flatMap(v -> Mono.just(v*v*v))
+                .filter(v -> v < 50)
+                .reduce(0, Integer::sum);
+    }
+//    Consideraciones con FLATMAP procesa en paralelo
+//      por lo que el resultado final debe ser independiente
+//          del orden de ejecución (deben ser funciones puras)
+
+//    Funciones puras?
+//      - Siempre produce el mismo resultado con los mismos argumentos
+//      - No produce efectos secundarios
+//          - Por ejemplo: modificar una variable global o escribir en
+//              la consola
 }

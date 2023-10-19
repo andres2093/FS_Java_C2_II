@@ -21,4 +21,10 @@ class Ejemplo2Test {
     void sumar() {
         assertThat(Ejemplo2.sumar()).isEqualTo(21);
     }
+
+    @Test
+    @DisplayName("Reto 2")
+    void cubosFiltrados(){
+        Ejemplo2.reto().subscribe(s -> assertThat(s).isEqualTo(36));
+    }
 }
