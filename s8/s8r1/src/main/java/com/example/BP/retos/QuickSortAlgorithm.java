@@ -1,46 +1,40 @@
 package com.example.BP.retos;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class QuickSortAlgorithm {
 
     private QuickSortAlgorithm() {
     }
 
-    public static  ArrayList<Number> sort(ArrayList<Number> u ) {
+    public static List<Number> sort(List<Number> listaOriginal) {
 
-        if(u.size() < 2){
-            return u;
+        if (listaOriginal.size() < 2) {
+            return listaOriginal;
         }
 
-        Number t = (u.get(u.size() - 1).doubleValue() + u.get(0).doubleValue()) / 2;
+        double pivote = calcularPivote(listaOriginal);
 
-        ArrayList<Number> l = new ArrayList<>();
-        ArrayList<Number> r = new ArrayList<>();
+        List<Number> elementosMenoresOrdenados = sort(filtrar(listaOriginal, n -> n.doubleValue() < pivote));
+        List<Number> elementosMayoresOrdenados = sort(filtrar(listaOriginal, n -> n.doubleValue() >= pivote));
 
-        for (int i = 0; i < u.size(); i++) {
-            Number x = u.get(i);
-            if (x.doubleValue() < t.doubleValue() ) {
-                l.add(x);
-            } else {
-                r.add(x);
-            }
-        }
+        List<Number> listaOrdenada = new ArrayList<>(elementosMenoresOrdenados);
+        listaOrdenada.addAll(elementosMayoresOrdenados);
 
-        ArrayList<Number> l2 =  sort(l);
-        ArrayList<Number> r2 =  sort(r);
+        return listaOrdenada;
+    }
 
-        ArrayList<Number> y = new ArrayList<>();
+    private static Double calcularPivote(List<Number> listaOriginal) {
+        final double primerElemento = listaOriginal.get(listaOriginal.size() - 1).doubleValue();
+        final double ultimoElemento = listaOriginal.get(0).doubleValue();
 
-        for(int i = 0; i < l2.size(); i++){
-            y.add(l2.get(i));
-        }
+        return (primerElemento + ultimoElemento) / 2;
+    }
 
-        for(int i = 0; i < r2.size(); i++){
-            y.add(r2.get(i));
-        }
-
-
-        return y;
+    private static List<Number> filtrar(List<Number> lista, Predicate<Number> predicate) {
+        return lista.stream().filter(predicate).collect(Collectors.toList());
     }
 }
