@@ -3,7 +3,7 @@ package com.example.demo.entity;
 public class Empleado {
 
     private final String id;
-    private final String nombre;
+    private String nombre;
 
     public Empleado(String id, String nombre) {
         this.id = id;
@@ -16,5 +16,9 @@ public class Empleado {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

@@ -3,12 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Empleado;
 import com.example.demo.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,5 +32,16 @@ public class DemoController {
                 )
                 .cast(Empleado.class)
                 .switchIfEmpty(empleadoRepository.save(empleado));
+    }
+
+    @PutMapping("/{id}")
+    public Mono<Empleado> actualizar(@PathVariable String id, @RequestBody Empleado empleado){
+        return empleadoRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Exception("El empleado no existe")))
+                .map(fetchedEmpleado -> {
+                    fetchedEmpleado.setNombre(empleado.getNombre());
+                    return fetchedEmpleado;
+                })
+                .flatMap(empleadoRepository::save);
     }
 }
