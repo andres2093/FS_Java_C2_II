@@ -44,4 +44,11 @@ public class DemoController {
                 })
                 .flatMap(empleadoRepository::save);
     }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> eliminar(@PathVariable String id){
+        return empleadoRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Exception("El empleado no existe")))
+                .flatMap(empleadoRepository::delete);
+    }
 }
