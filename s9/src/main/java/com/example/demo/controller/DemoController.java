@@ -31,8 +31,11 @@ public class DemoController {
 
     @PostMapping
     private Mono<Empleado> crear(@RequestBody Empleado empleado) {
-        System.out.println(empleado.getId());
-        System.out.println(empleado.getNombre());
-        return empleadoRepository.save(empleado);
+        return empleadoRepository.findById(empleado.getId())
+                .flatMap(empleadoRegistrado -> Mono.error(
+                        new Exception(String.format("Empleado con el id %s ya existe!!!", empleadoRegistrado.getId())))
+                )
+                .cast(Empleado.class)
+                .switchIfEmpty(empleadoRepository.save(empleado));
     }
 }
