@@ -63,4 +63,9 @@ public class DemoController {
                 .map(fetchedEmpleado -> checador)
                 .flatMap(checadorRepository::save);
     }
+
+    @GetMapping("/checador/{empleadoId}/{esEntrada}")
+    public Flux<Checador> getRegistrosById(@PathVariable String empleadoId, @PathVariable boolean esEntrada){
+        return checadorRepository.findByEmpleado(empleadoId, esEntrada);
+    }
 }
