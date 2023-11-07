@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Checador;
 import com.example.demo.entity.Empleado;
+import com.example.demo.repository.ChecadorRepository;
 import com.example.demo.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,8 @@ public class DemoController {
     
     @Autowired
     private EmpleadoRepository empleadoRepository;
+    @Autowired
+    private ChecadorRepository checadorRepository;
 
     @GetMapping("/{id}")
     private Mono<Empleado> getEmpleadoById(@PathVariable String id) {
@@ -50,5 +54,13 @@ public class DemoController {
         return empleadoRepository.findById(id)
                 .switchIfEmpty(Mono.error(new Exception("El empleado no existe")))
                 .flatMap(empleadoRepository::delete);
+    }
+
+    @PostMapping("/checador")
+    public Mono<Checador> checador(@RequestBody Checador checador){
+        return empleadoRepository.findById(checador.getEmpleado().getId())
+                .switchIfEmpty(Mono.error(new Exception("El empleado no existe")))
+                .map(fetchedEmpleado -> checador)
+                .flatMap(checadorRepository::save);
     }
 }
